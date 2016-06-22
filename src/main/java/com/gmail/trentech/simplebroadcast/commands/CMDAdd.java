@@ -20,38 +20,38 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDAdd implements CommandExecutor {
 
-	public CMDAdd(){
+	public CMDAdd() {
 		Help help = new Help("add", "add", " Add message to broadcast list");
 		help.setSyntax(" /broadcast add <message>\n /b a <message>");
 		help.setExample(" /broadcast add Welcome to the server");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("message")) {
+		if (!args.hasAny("message")) {
 			src.sendMessage(Text.of(TextColors.YELLOW, "/broadcast add <message>"));
 			return CommandResult.empty();
-		}	
-		String message = args.<String>getOne("message").get();
-		
+		}
+		String message = args.<String> getOne("message").get();
+
 		ConfigManager configManager = new ConfigManager();
-		
+
 		List<Text> broadcasts = Broadcast.getBroadcasts();
-		
+
 		broadcasts.add(Main.processText(message));
-		
+
 		ConfigurationNode node = configManager.getConfig().getNode("broadcast", "messages");
-		
+
 		List<String> list = node.getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
 		list.add(message);
-		
+
 		node.setValue(list);
-		
+
 		configManager.save();
-		
+
 		src.sendMessage(Text.of(TextColors.GREEN, "Message saved"));
-		
+
 		return CommandResult.success();
 	}
 

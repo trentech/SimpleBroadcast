@@ -19,15 +19,15 @@ public class ConfigManager {
 
 	public ConfigManager() {
 		String folder = "config" + File.separator + "simplebroadcast";
-        if (!new File(folder).isDirectory()) {
-        	new File(folder).mkdirs();
-        }
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
 		file = new File(folder, "config.conf");
-		
+
 		create();
 		load();
 	}
-	
+
 	public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
 		return loader;
 	}
@@ -36,7 +36,7 @@ public class ConfigManager {
 		return config;
 	}
 
-	public void save(){
+	public void save() {
 		try {
 			loader.save(config);
 		} catch (IOException e) {
@@ -44,43 +44,43 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 	}
-	
-	public void init() {
-        if(config.getNode("broadcast", "enable").isVirtual()) {
-        	config.getNode("broadcast", "enable").setValue(false);	
-        }
-        if(config.getNode("broadcast", "minutes").isVirtual()) {
-        	config.getNode("broadcast", "minutes").setValue(1);
-        }
-        if(config.getNode("broadcast", "messages").isVirtual()) {
-        	List<String> list = new ArrayList<String>(); 
-        	
-        	list.add("&eWelcome to &5SERVER NAME&e! This is an auto broacast!");
-        	list.add("&eBreak stone blocks with a pickaxe!");
-        	list.add("&eYou can delete these message and create your own!");
-        	list.add("&eCreate clickable link &u{url;www.google.com;&1Click Here}&e like so");
-        	list.add("&eCreate clickable command &u{cmd;/say hello world;&1Click Here}&e like so");
-        	list.add("&eCreate clickable suggested command &u{suggest;/say hello world;&1Click Here}&e like so");
-        	list.add("&eCreate hovered text &u{hover;&3secret text;&1Hover Here}&e like so");
 
-        	config.getNode("broadcast", "messages").setValue(list);  
-        }
+	public void init() {
+		if (config.getNode("broadcast", "enable").isVirtual()) {
+			config.getNode("broadcast", "enable").setValue(false);
+		}
+		if (config.getNode("broadcast", "minutes").isVirtual()) {
+			config.getNode("broadcast", "minutes").setValue(1);
+		}
+		if (config.getNode("broadcast", "messages").isVirtual()) {
+			List<String> list = new ArrayList<String>();
+
+			list.add("&eWelcome to &5SERVER NAME&e! This is an auto broacast!");
+			list.add("&eBreak stone blocks with a pickaxe!");
+			list.add("&eYou can delete these message and create your own!");
+			list.add("&eCreate clickable link &u{url;www.google.com;&1Click Here}&e like so");
+			list.add("&eCreate clickable command &u{cmd;/say hello world;&1Click Here}&e like so");
+			list.add("&eCreate clickable suggested command &u{suggest;/say hello world;&1Click Here}&e like so");
+			list.add("&eCreate hovered text &u{hover;&3secret text;&1Hover Here}&e like so");
+
+			config.getNode("broadcast", "messages").setValue(list);
+		}
 		save();
 	}
 
-	private void create(){
-		if(!file.exists()) {
+	private void create() {
+		if (!file.exists()) {
 			try {
 				Main.getLog().info("Creating new " + file.getName() + " file...");
-				file.createNewFile();		
-			} catch (IOException e) {				
+				file.createNewFile();
+			} catch (IOException e) {
 				Main.getLog().error("Failed to create new config file");
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	private void load(){
+
+	private void load() {
 		loader = HoconConfigurationLoader.builder().setFile(file).build();
 		try {
 			config = loader.load();

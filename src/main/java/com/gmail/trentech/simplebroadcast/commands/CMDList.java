@@ -20,37 +20,37 @@ import com.gmail.trentech.simplebroadcast.utils.Help;
 
 public class CMDList implements CommandExecutor {
 
-	public CMDList(){
+	public CMDList() {
 		Help help = new Help("list", "list", " List all broadcast messages");
 		help.setSyntax(" /broadcast list\n /b l");
 		help.setExample(" /broadcast list");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		List<Text> list = new ArrayList<>();
-		
+
 		int i = 0;
-		for(Text message : Broadcast.getBroadcasts()){
-			list.add(Text.of(TextColors.GREEN,"[",i,"] ", TextColors.RESET, message));
+		for (Text message : Broadcast.getBroadcasts()) {
+			list.add(Text.of(TextColors.GREEN, "[", i, "] ", TextColors.RESET, message));
 			i++;
 		}
-		
-		if(src instanceof Player) {
+
+		if (src instanceof Player) {
 			Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
 
 			pages.title(Text.builder().color(TextColors.DARK_GREEN).append(Text.of(TextColors.GREEN, "Messages")).build());
-			
+
 			pages.contents(list);
-			
+
 			pages.sendTo(src);
-		}else {
-			for(Text text : list) {
+		} else {
+			for (Text text : list) {
 				src.sendMessage(text);
 			}
 		}
-		
+
 		return CommandResult.success();
 	}
 

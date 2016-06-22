@@ -13,20 +13,20 @@ import com.gmail.trentech.simplebroadcast.utils.Help;
 
 public class CMDSend implements CommandExecutor {
 
-	public CMDSend(){
+	public CMDSend() {
 		Help help = new Help("send", "send", " Broadcast a message");
 		help.setSyntax(" /broadcast send <message>\n /b s <message>");
 		help.setExample(" /broadcast send Hello world!");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if(!args.hasAny("message")) {
+		if (!args.hasAny("message")) {
 			src.sendMessage(Text.of(TextColors.YELLOW, "/broadcast send <message>"));
 			return CommandResult.empty();
 		}
-		String message = args.<String>getOne("message").get();
+		String message = args.<String> getOne("message").get();
 
 		Main.broadcast(Main.processText(message));
 

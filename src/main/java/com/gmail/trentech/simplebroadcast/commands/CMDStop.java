@@ -19,30 +19,30 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDStop implements CommandExecutor {
 
-	public CMDStop(){
+	public CMDStop() {
 		Help help = new Help("stop", "stop", " Toggle off auto broadcasts");
 		help.setSyntax(" /broadcast stop\n /b off");
 		help.setExample(" /broadcast stop\n");
 		help.save();
 	}
-	
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		ConfigManager configManager = new ConfigManager();
 		ConfigurationNode config = configManager.getConfig();
-		
-		config.getNode("broadcast", "enable").setValue(false);			
+
+		config.getNode("broadcast", "enable").setValue(false);
 		configManager.save();
 
 		Set<Task> tasks = Main.getGame().getScheduler().getScheduledTasks();
-		
-		for(Task task : tasks){
-			if(task.getName().equalsIgnoreCase("broadcast")){
+
+		for (Task task : tasks) {
+			if (task.getName().equalsIgnoreCase("broadcast")) {
 				task.cancel();
 				break;
-			}	
+			}
 		}
-		
+
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Auto Broadcast Disabled"));
 
 		return CommandResult.success();

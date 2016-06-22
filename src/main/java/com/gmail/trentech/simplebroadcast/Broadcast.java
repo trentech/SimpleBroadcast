@@ -17,56 +17,56 @@ public class Broadcast {
 
 	private static List<Text> broadcasts = new ArrayList<>();
 	private static ThreadLocalRandom random = ThreadLocalRandom.current();
-	
-    public Task task;
 
-    public void start(ConfigurationNode config) {
-    	List<Integer> played = new ArrayList<>();
-    	
-        int minutes = config.getNode("broadcast", "minutes").getInt();
-        
-        task = Main.getGame().getScheduler().createTaskBuilder().interval(minutes, TimeUnit.MINUTES).name("broadcast").execute(new Runnable() {
-        	
+	public Task task;
+
+	public void start(ConfigurationNode config) {
+		List<Integer> played = new ArrayList<>();
+
+		int minutes = config.getNode("broadcast", "minutes").getInt();
+
+		task = Main.getGame().getScheduler().createTaskBuilder().interval(minutes, TimeUnit.MINUTES).name("broadcast").execute(new Runnable() {
+
 			@Override
-            public void run() {
+			public void run() {
 				int size = getBroadcasts().size();
-				
-				if(size == 0) {
+
+				if (size == 0) {
 					return;
 				}
-				
-            	int number = random.nextInt(size);
-            	
-            	if(played.size() >= size){
-            		played.clear();
-            	}
-            	
-            	while(played.contains(number)){
-            		number = random.nextInt(size);
-            	}
 
-            	Main.broadcast(getBroadcasts().get(number));
+				int number = random.nextInt(size);
 
-            	played.add(number);
-            }
-			
-        }).submit(Main.getPlugin());
+				if (played.size() >= size) {
+					played.clear();
+				}
+
+				while (played.contains(number)) {
+					number = random.nextInt(size);
+				}
+
+				Main.broadcast(getBroadcasts().get(number));
+
+				played.add(number);
+			}
+
+		}).submit(Main.getPlugin());
 	}
 
-    public static void init(){
+	public static void init() {
 		ConfigurationNode config = new ConfigManager().getConfig();
 
-		for(String broadcast : config.getNode("broadcast", "messages").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList())){
+		for (String broadcast : config.getNode("broadcast", "messages").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList())) {
 			getBroadcasts().add(Main.processText(broadcast));
 		}
-		
-		if(config.getNode("broadcast", "enable").getBoolean()){
+
+		if (config.getNode("broadcast", "enable").getBoolean()) {
 			new Broadcast().start(config);
 		}
-    }
-    
-    public static List<Text> getBroadcasts(){
-    	return broadcasts;
-    }
+	}
+
+	public static List<Text> getBroadcasts() {
+		return broadcasts;
+	}
 
 }

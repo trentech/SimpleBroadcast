@@ -24,41 +24,35 @@ public class CMDBroadcast implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		List<Text> list = new ArrayList<>();
 
-		if(src.hasPermission("simplebroadcast.cmd.broadcast.add")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information ")))
-					.onClick(TextActions.executeCallback(Help.getHelp("add"))).append(Text.of(" /broadcast add")).build());
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.add")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("add"))).append(Text.of(" /broadcast add")).build());
 		}
-		if(src.hasPermission("simplebroadcast.cmd.broadcast.remove")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information ")))
-					.onClick(TextActions.executeCallback(Help.getHelp("remove"))).append(Text.of(" /broadcast remove")).build());
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.remove")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("remove"))).append(Text.of(" /broadcast remove")).build());
 		}
-		if(src.hasPermission("simplebroadcast.cmd.broadcast.list")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information ")))
-					.onClick(TextActions.executeCallback(Help.getHelp("list"))).append(Text.of(" /broadcast list")).build());
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.list")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("list"))).append(Text.of(" /broadcast list")).build());
 		}
-		if(src.hasPermission("simplebroadcast.cmd.broadcast.start")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information ")))
-					.onClick(TextActions.executeCallback(Help.getHelp("start"))).append(Text.of(" /broadcast start")).build());
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.start")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("start"))).append(Text.of(" /broadcast start")).build());
 		}
-		if(src.hasPermission("simplebroadcast.cmd.broadcast.stop")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information ")))
-					.onClick(TextActions.executeCallback(Help.getHelp("stop"))).append(Text.of(" /broadcast stop")).build());
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.stop")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("stop"))).append(Text.of(" /broadcast stop")).build());
 		}
-		if(src.hasPermission("simplebroadcast.cmd.broadcast.send")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information ")))
-					.onClick(TextActions.executeCallback(Help.getHelp("send"))).append(Text.of(" /broadcast send")).build());
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.send")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("send"))).append(Text.of(" /broadcast send")).build());
 		}
-		
-		if(src instanceof Player) {
+
+		if (src instanceof Player) {
 			Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
 
 			pages.title(Text.builder().color(TextColors.DARK_GREEN).append(Text.of(TextColors.GREEN, "Command List")).build());
-			
+
 			pages.contents(list);
-			
+
 			pages.sendTo(src);
-		}else {
-			for(Text text : list) {
+		} else {
+			for (Text text : list) {
 				src.sendMessage(text);
 			}
 		}
