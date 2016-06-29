@@ -14,6 +14,8 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.channel.MessageReceiver;
@@ -79,7 +81,7 @@ public class Main {
 			}
 			Player player = (Player) receiver;
 
-			if (player.hasPermission("simplebroadcast.off")) {
+			if (player.hasPermission("simplebroadcast.off") && !isOp(player)) {
 				channel.removeMember(receiver);
 			}
 		}
@@ -144,5 +146,19 @@ public class Main {
 		}
 
 		return builder.build();
+	}
+	
+	private static boolean isOp(Player player) {
+		PermissionService permissionService = Main.getGame().getServiceManager().provide(PermissionService.class).get();
+		
+		for (Subject subject : permissionService.getGroupSubjects().getAllSubjects()) {
+			String group = subject.getIdentifier();
+
+			if (group.equalsIgnoreCase("op_0") || group.equalsIgnoreCase("op_1") || group.equalsIgnoreCase("op_2") || group.equalsIgnoreCase("op_3") || group.equalsIgnoreCase("op_4")) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
