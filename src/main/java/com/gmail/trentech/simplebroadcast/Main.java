@@ -2,7 +2,10 @@ package com.gmail.trentech.simplebroadcast;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -14,7 +17,7 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
@@ -149,16 +152,16 @@ public class Main {
 	}
 	
 	private static boolean isOp(Player player) {
-		PermissionService permissionService = Main.getGame().getServiceManager().provide(PermissionService.class).get();
-		
-		for (Subject subject : permissionService.getGroupSubjects().getAllSubjects()) {
-			String group = subject.getIdentifier();
+		for (Entry<Set<Context>, List<Subject>> parent : player.getSubjectData().getAllParents().entrySet()) {
+			for (Subject subject : parent.getValue()) {
+				String group = subject.getIdentifier();
 
-			if (group.equalsIgnoreCase("op_0") || group.equalsIgnoreCase("op_1") || group.equalsIgnoreCase("op_2") || group.equalsIgnoreCase("op_3") || group.equalsIgnoreCase("op_4")) {
-				return true;
+				if (group.equalsIgnoreCase("op_0") || group.equalsIgnoreCase("op_1") || group.equalsIgnoreCase("op_2") || group.equalsIgnoreCase("op_3") || group.equalsIgnoreCase("op_4")) {
+					return true;
+				}
 			}
 		}
-		
+
 		return false;
 	}
 }
