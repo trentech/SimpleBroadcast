@@ -2,6 +2,7 @@ package com.gmail.trentech.simplebroadcast.commands;
 
 import java.util.Set;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -12,7 +13,6 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.Broadcast;
-import com.gmail.trentech.simplebroadcast.Main;
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
 import com.gmail.trentech.simplebroadcast.utils.Help;
 
@@ -47,7 +47,7 @@ public class CMDStart implements CommandExecutor {
 
 		configManager.save();
 
-		Set<Task> tasks = Main.getGame().getScheduler().getScheduledTasks();
+		Set<Task> tasks = Sponge.getScheduler().getScheduledTasks();
 
 		for (Task task : tasks) {
 			if (task.getName().equalsIgnoreCase("broadcast")) {

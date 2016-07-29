@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
-import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -35,36 +34,30 @@ import com.google.common.collect.Lists;
 
 import me.flibio.updatifier.Updatifier;
 
-@Updatifier(repoName = "SimpleBroadcast", repoOwner = "TrenTech", version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true), @Dependency(id = "com.gmail.trentech.simpletags", version = "0.3.0", optional = true) })
+@Updatifier(repoName = Resource.NAME, repoOwner = Resource.AUTHOR, version = Resource.VERSION)
+@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true), @Dependency(id = "simpletags", version = "0.3.0", optional = true) })
 public class Main {
 
-	private static Game game;
 	private static Logger log;
 	private static PluginContainer plugin;
 
 	@Listener
 	public void onPreInitializationEvent(GamePreInitializationEvent event) {
-		game = Sponge.getGame();
-		plugin = getGame().getPluginManager().getPlugin(Resource.ID).get();
+		plugin = Sponge.getPluginManager().getPlugin(Resource.ID).get();
 		log = getPlugin().getLogger();
 	}
 
 	@Listener
 	public void onInitializationEvent(GameInitializationEvent event) {
-		getGame().getCommandManager().register(this, new CommandManager().cmdBroadcast, "broadcast", "b");
+		Sponge.getCommandManager().register(this, new CommandManager().cmdBroadcast, "broadcast", "b");
 
 		new ConfigManager().init();
 
-		if (Main.getGame().getPluginManager().isLoaded("com.gmail.trentech.simpletags")) {
+		if (Sponge.getPluginManager().isLoaded("com.gmail.trentech.simpletags")) {
 			com.gmail.trentech.simpletags.Main.registerCommand(CMDTagBroadcast.cmd, "broadcast", "b");
 		}
 
 		Broadcast.init();
-	}
-
-	public static Game getGame() {
-		return game;
 	}
 
 	public static Logger getLog() {
@@ -76,7 +69,7 @@ public class Main {
 	}
 
 	public static void broadcast(Text message) {
-		MutableMessageChannel channel = Main.getGame().getServer().getBroadcastChannel().asMutable();
+		MutableMessageChannel channel = Sponge.getServer().getBroadcastChannel().asMutable();
 
 		for (MessageReceiver receiver : Lists.newArrayList(channel.getMembers())) {
 			if (!(receiver instanceof Player)) {
@@ -89,7 +82,7 @@ public class Main {
 			}
 		}
 
-		if (Main.getGame().getPluginManager().isLoaded("com.gmail.trentech.simpletags")) {
+		if (Sponge.getPluginManager().isLoaded("com.gmail.trentech.simpletags")) {
 			Optional<SingleTag> optionalTag = SingleTag.get(Main.getPlugin().getId(), "broadcast");
 
 			if (optionalTag.isPresent()) {

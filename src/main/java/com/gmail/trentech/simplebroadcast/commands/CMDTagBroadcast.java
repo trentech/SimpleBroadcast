@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -49,7 +50,7 @@ public class CMDTagBroadcast implements CommandExecutor {
 			list.add(Text.of(TextColors.GREEN, "Update Tag: ", TextColors.YELLOW, "/tag broadcast <tag>"));
 
 			if (src instanceof Player) {
-				Builder pages = Main.getGame().getServiceManager().provide(PaginationService.class).get().builder();
+				Builder pages = Sponge.getServiceManager().provide(PaginationService.class).get().builder();
 
 				pages.title(Text.builder().color(TextColors.DARK_GREEN).append(Text.of(TextColors.GREEN, "Channel")).build());
 

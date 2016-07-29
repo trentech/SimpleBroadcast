@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 
@@ -25,7 +26,7 @@ public class Broadcast {
 
 		int minutes = config.getNode("broadcast", "minutes").getInt();
 
-		task = Main.getGame().getScheduler().createTaskBuilder().interval(minutes, TimeUnit.MINUTES).name("broadcast").execute(new Runnable() {
+		task = Sponge.getScheduler().createTaskBuilder().interval(minutes, TimeUnit.MINUTES).name("broadcast").execute(new Runnable() {
 
 			@Override
 			public void run() {
