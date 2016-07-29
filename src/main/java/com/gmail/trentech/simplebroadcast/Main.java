@@ -53,7 +53,7 @@ public class Main {
 
 		new ConfigManager().init();
 
-		if (Sponge.getPluginManager().isLoaded("com.gmail.trentech.simpletags")) {
+		if (Sponge.getPluginManager().isLoaded("simpletags")) {
 			com.gmail.trentech.simpletags.Main.registerCommand(CMDTagBroadcast.cmd, "broadcast", "b");
 		}
 
@@ -82,7 +82,7 @@ public class Main {
 			}
 		}
 
-		if (Sponge.getPluginManager().isLoaded("com.gmail.trentech.simpletags")) {
+		if (Sponge.getPluginManager().isLoaded("simpletags")) {
 			Optional<SingleTag> optionalTag = SingleTag.get(Main.getPlugin().getId(), "broadcast");
 
 			if (optionalTag.isPresent()) {
