@@ -52,6 +52,9 @@ public class ConfigManager {
 		if (config.getNode("broadcast", "minutes").isVirtual()) {
 			config.getNode("broadcast", "minutes").setValue(1);
 		}
+		if (config.getNode("broadcast", "random").isVirtual()) {
+			config.getNode("broadcast", "random").setValue(true);
+		}
 		if (config.getNode("broadcast", "messages").isVirtual()) {
 			List<String> list = new ArrayList<String>();
 

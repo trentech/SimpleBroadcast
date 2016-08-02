@@ -24,9 +24,9 @@ public class Broadcast {
 	public void start(ConfigurationNode config) {
 		List<Integer> played = new ArrayList<>();
 
-		int minutes = config.getNode("broadcast", "minutes").getInt();
-
-		task = Sponge.getScheduler().createTaskBuilder().interval(minutes, TimeUnit.MINUTES).name("broadcast").execute(new Runnable() {
+		boolean isRandom = config.getNode("broadcast", "random").getBoolean();
+		
+		task = Sponge.getScheduler().createTaskBuilder().interval(config.getNode("broadcast", "minutes").getInt(), TimeUnit.MINUTES).name("broadcast").execute(new Runnable() {
 
 			@Override
 			public void run() {
@@ -36,14 +36,20 @@ public class Broadcast {
 					return;
 				}
 
-				int number = random.nextInt(size);
-
 				if (played.size() >= size) {
 					played.clear();
 				}
 
-				while (played.contains(number)) {
+				int number;
+				
+				if(isRandom) {
 					number = random.nextInt(size);
+					
+					while (played.contains(number)) {
+						number = random.nextInt(size);
+					}
+				} else {
+					number = played.size();
 				}
 
 				Main.broadcast(getBroadcasts().get(number));
