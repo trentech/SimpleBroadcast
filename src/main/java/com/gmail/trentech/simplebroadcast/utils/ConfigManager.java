@@ -28,6 +28,17 @@ public class ConfigManager {
 		load();
 	}
 
+	public ConfigManager(String configName) {
+		String folder = "config" + File.separator + Resource.ID;
+		if (!new File(folder).isDirectory()) {
+			new File(folder).mkdirs();
+		}
+		file = new File(folder, configName + ".conf");
+
+		create();
+		load();
+	}
+	
 	public ConfigurationLoader<CommentedConfigurationNode> getLoader() {
 		return loader;
 	}

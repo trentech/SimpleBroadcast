@@ -30,6 +30,12 @@ public class CMDBroadcast implements CommandExecutor {
 		if (src.hasPermission("simplebroadcast.cmd.broadcast.remove")) {
 			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("remove"))).append(Text.of(" /broadcast remove")).build());
 		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.mute")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("mute"))).append(Text.of(" /broadcast mute")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.unmute")) {
+			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("unmute"))).append(Text.of(" /broadcast unmute")).build());
+		}
 		if (src.hasPermission("simplebroadcast.cmd.broadcast.list")) {
 			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("list"))).append(Text.of(" /broadcast list")).build());
 		}

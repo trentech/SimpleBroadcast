@@ -3,9 +3,8 @@ package com.gmail.trentech.simplebroadcast;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -16,8 +15,6 @@ import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.service.context.Context;
-import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.channel.MessageReceiver;
@@ -33,6 +30,7 @@ import com.gmail.trentech.simpletags.tags.SingleTag;
 import com.google.common.collect.Lists;
 
 import me.flibio.updatifier.Updatifier;
+import ninja.leaping.configurate.ConfigurationNode;
 
 @Updatifier(repoName = Resource.NAME, repoOwner = Resource.AUTHOR, version = Resource.VERSION)
 @Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true), @Dependency(id = "simpletags", version = "0.3.0", optional = true) })
@@ -71,13 +69,15 @@ public class Main {
 	public static void broadcast(Text message) {
 		MutableMessageChannel channel = Sponge.getServer().getBroadcastChannel().asMutable();
 
+		List<String> list = new ConfigManager("mute").getConfig().getNode("players").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
+		
 		for (MessageReceiver receiver : Lists.newArrayList(channel.getMembers())) {
 			if (!(receiver instanceof Player)) {
 				continue;
 			}
 			Player player = (Player) receiver;
 
-			if (player.hasPermission("simplebroadcast.off") && !isOp(player)) {
+			if (list.contains(player.getUniqueId().toString())) {
 				channel.removeMember(receiver);
 			}
 		}
@@ -142,19 +142,5 @@ public class Main {
 		}
 
 		return builder.build();
-	}
-	
-	private static boolean isOp(Player player) {
-		for (Entry<Set<Context>, List<Subject>> parent : player.getSubjectData().getAllParents().entrySet()) {
-			for (Subject subject : parent.getValue()) {
-				String group = subject.getIdentifier();
-
-				if (group.equalsIgnoreCase("op_0") || group.equalsIgnoreCase("op_1") || group.equalsIgnoreCase("op_2") || group.equalsIgnoreCase("op_3") || group.equalsIgnoreCase("op_4")) {
-					return true;
-				}
-			}
-		}
-
-		return false;
 	}
 }
