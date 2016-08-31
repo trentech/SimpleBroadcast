@@ -8,13 +8,13 @@ public class CommandManager {
 
 	private CommandSpec cmdAdd = CommandSpec.builder()
 			.permission("simplebroadcast.cmd.broadcast.add")
-			.arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("message"))))
+			.arguments(GenericArguments.remainingJoinedStrings(Text.of("message")))
 			.executor(new CMDAdd())
 			.build();
 
 	private CommandSpec cmdRemove = CommandSpec.builder()
 			.permission("simplebroadcast.cmd.broadcast.remove")
-			.arguments(GenericArguments.optional(GenericArguments.string(Text.of("index"))))
+			.arguments(GenericArguments.integer(Text.of("index")))
 			.executor(new CMDRemove())
 			.build();
 
@@ -35,7 +35,7 @@ public class CommandManager {
 	
 	private CommandSpec cmdStart = CommandSpec.builder()
 			.permission("simplebroadcast.cmd.broadcast.start")
-			.arguments(GenericArguments.optional(GenericArguments.string(Text.of("time"))))
+			.arguments(GenericArguments.optional(GenericArguments.integer(Text.of("time"))))
 			.executor(new CMDStart())
 			.build();
 
@@ -46,7 +46,7 @@ public class CommandManager {
 
 	public CommandSpec cmdSend = CommandSpec.builder()
 			.permission("simplebroadcast.cmd.broadcast.send")
-			.arguments(GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("message"))))
+			.arguments(GenericArguments.remainingJoinedStrings(Text.of("message")))
 			.executor(new CMDSend())
 			.build();
 

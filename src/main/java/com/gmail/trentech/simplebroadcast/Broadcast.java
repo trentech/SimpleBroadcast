@@ -52,19 +52,19 @@ public class Broadcast {
 					number = played.size();
 				}
 
-				Main.broadcast(getBroadcasts().get(number));
+				Main.instance().broadcast(getBroadcasts().get(number));
 
 				played.add(number);
 			}
 
-		}).submit(Main.getPlugin());
+		}).submit(Main.instance().getPlugin());
 	}
 
 	public static void init() {
-		ConfigurationNode config = new ConfigManager().getConfig();
+		ConfigurationNode config = ConfigManager.get().getConfig();
 
 		for (String broadcast : config.getNode("broadcast", "messages").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList())) {
-			getBroadcasts().add(Main.processText(broadcast));
+			getBroadcasts().add(Main.instance().processText(broadcast));
 		}
 
 		if (config.getNode("broadcast", "enable").getBoolean()) {

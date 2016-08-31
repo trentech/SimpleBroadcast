@@ -29,20 +29,15 @@ public class CMDStart implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		ConfigManager configManager = new ConfigManager();
+		ConfigManager configManager = ConfigManager.get();
 		ConfigurationNode config = configManager.getConfig();
 
 		config.getNode("broadcast", "enable").setValue(true);
 
 		if (args.hasAny("time")) {
-			String value = args.<String> getOne("time").get();
+			int time = args.<Integer> getOne("time").get();
 
-			try {
-				config.getNode("broadcast", "minutes").setValue(Integer.parseInt(value));
-			} catch (Exception e) {
-				src.sendMessage(Text.of(TextColors.DARK_RED, value, " is not a valid integer"));
-				return CommandResult.empty();
-			}
+			config.getNode("broadcast", "minutes").setValue(time);
 		}
 
 		configManager.save();

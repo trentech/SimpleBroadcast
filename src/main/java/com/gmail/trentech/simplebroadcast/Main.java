@@ -1,13 +1,17 @@
 package com.gmail.trentech.simplebroadcast;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -28,6 +32,7 @@ import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
 import com.gmail.trentech.simplebroadcast.utils.Resource;
 import com.gmail.trentech.simpletags.tags.SingleTag;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 import me.flibio.updatifier.Updatifier;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -36,20 +41,34 @@ import ninja.leaping.configurate.ConfigurationNode;
 @Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true), @Dependency(id = "simpletags", version = "0.3.0", optional = true) })
 public class Main {
 
-	private static Logger log;
-	private static PluginContainer plugin;
+	@Inject @ConfigDir(sharedRoot = false)
+    private Path path;
 
+	@Inject 
+	private PluginContainer plugin;
+	
+	@Inject
+	private Logger log;
+
+	private static Main instance;
+	
 	@Listener
 	public void onPreInitializationEvent(GamePreInitializationEvent event) {
-		plugin = Sponge.getPluginManager().getPlugin(Resource.ID).get();
-		log = getPlugin().getLogger();
+		instance = this;
+		
+		try {			
+			Files.createDirectories(path);		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Listener
 	public void onInitializationEvent(GameInitializationEvent event) {
 		Sponge.getCommandManager().register(this, new CommandManager().cmdBroadcast, "broadcast", "b");
 
-		new ConfigManager().init();
+		ConfigManager.init();
+		ConfigManager.init("mute");
 
 		if (Sponge.getPluginManager().isLoaded("simpletags")) {
 			com.gmail.trentech.simpletags.Main.registerCommand(CMDTagBroadcast.cmd, "broadcast", "b");
@@ -58,18 +77,26 @@ public class Main {
 		Broadcast.init();
 	}
 
-	public static Logger getLog() {
+	public Logger getLog() {
 		return log;
 	}
 
-	public static PluginContainer getPlugin() {
+	public PluginContainer getPlugin() {
 		return plugin;
 	}
 
-	public static void broadcast(Text message) {
+	public Path getPath() {
+		return path;
+	}
+
+	public static Main instance() {
+		return instance;
+	}
+	
+	public void broadcast(Text message) {
 		MutableMessageChannel channel = Sponge.getServer().getBroadcastChannel().asMutable();
 
-		List<String> list = new ConfigManager("mute").getConfig().getNode("players").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
+		List<String> list = ConfigManager.get("mute").getConfig().getNode("players").getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());
 		
 		for (MessageReceiver receiver : Lists.newArrayList(channel.getMembers())) {
 			if (!(receiver instanceof Player)) {
@@ -83,7 +110,7 @@ public class Main {
 		}
 
 		if (Sponge.getPluginManager().isLoaded("simpletags")) {
-			Optional<SingleTag> optionalTag = SingleTag.get(Main.getPlugin().getId(), "broadcast");
+			Optional<SingleTag> optionalTag = SingleTag.get(Main.instance().getPlugin().getId(), "broadcast");
 
 			if (optionalTag.isPresent()) {
 				message = Text.of(optionalTag.get().getTag(), TextColors.WHITE, " ", message);
@@ -95,7 +122,7 @@ public class Main {
 		channel.send(Text.of(message));
 	}
 
-	public static Text processText(String msg) {
+	public Text processText(String msg) {
 		Text message = Text.EMPTY;
 
 		while (msg.contains("&u")) {
@@ -111,7 +138,7 @@ public class Main {
 		return Text.of(message, TextSerializers.FORMATTING_CODE.deserialize(msg));
 	}
 
-	private static Text getLink(String link) {
+	private Text getLink(String link) {
 		Text.Builder builder = Text.builder();
 		String[] work = link.split(";");
 

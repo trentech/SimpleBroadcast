@@ -28,20 +28,9 @@ public class CMDRemove implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if (!args.hasAny("index")) {
-			src.sendMessage(Text.of(TextColors.YELLOW, "/broadcast remove <index>"));
-			return CommandResult.empty();
-		}
-		int index;
+		int index = args.<Integer> getOne("index").get();
 
-		try {
-			index = Integer.parseInt(args.<String> getOne("index").get());
-		} catch (Exception e) {
-			src.sendMessage(Text.of(TextColors.YELLOW, "/broadcast remove <index>"));
-			return CommandResult.empty();
-		}
-
-		ConfigManager configManager = new ConfigManager();
+		ConfigManager configManager = ConfigManager.get();
 
 		List<Text> broadcasts = Broadcast.getBroadcasts();
 

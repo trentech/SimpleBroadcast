@@ -35,7 +35,7 @@ public class CMDUnmute implements CommandExecutor {
 		Player player = (Player) src;
 		String uuid = player.getUniqueId().toString();
 		
-		ConfigManager configManager = new ConfigManager("mute");
+		ConfigManager configManager = ConfigManager.get("mute");
 		ConfigurationNode node = configManager.getConfig().getNode("players");
 				
 		List<String> list = node.getChildrenList().stream().map(ConfigurationNode::getString).collect(Collectors.toList());

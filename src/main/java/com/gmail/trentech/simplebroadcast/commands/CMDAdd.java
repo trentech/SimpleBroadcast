@@ -29,17 +29,13 @@ public class CMDAdd implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		if (!args.hasAny("message")) {
-			src.sendMessage(Text.of(TextColors.YELLOW, "/broadcast add <message>"));
-			return CommandResult.empty();
-		}
 		String message = args.<String> getOne("message").get();
 
-		ConfigManager configManager = new ConfigManager();
+		ConfigManager configManager = ConfigManager.get();
 
 		List<Text> broadcasts = Broadcast.getBroadcasts();
 
-		broadcasts.add(Main.processText(message));
+		broadcasts.add(Main.instance().processText(message));
 
 		ConfigurationNode node = configManager.getConfig().getNode("broadcast", "messages");
 
