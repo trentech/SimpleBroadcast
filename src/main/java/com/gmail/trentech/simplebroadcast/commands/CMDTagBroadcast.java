@@ -30,7 +30,7 @@ public class CMDTagBroadcast implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-		Optional<SingleTag> optionalTag = SingleTag.get(Main.instance().getPlugin().getId(), "broadcast");
+		Optional<SingleTag> optionalTag = SingleTag.get(Main.getPlugin().getId(), "broadcast");
 
 		if (!args.hasAny("tag")) {
 			if (optionalTag.isPresent()) {
@@ -58,7 +58,7 @@ public class CMDTagBroadcast implements CommandExecutor {
 			SingleTag broadcastTag = optionalTag.get();
 			broadcastTag.setTag(tag);
 		} else {
-			SingleTag.create(Main.instance().getPlugin().getId(), "broadcast", tag);
+			SingleTag.create(Main.getPlugin().getId(), "broadcast", tag);
 		}
 
 		src.sendMessage(Text.of(TextColors.DARK_GREEN, "Tag changed to ", TextSerializers.FORMATTING_CODE.deserialize(tag)));

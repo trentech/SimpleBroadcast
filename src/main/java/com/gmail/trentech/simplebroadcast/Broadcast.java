@@ -57,7 +57,7 @@ public class Broadcast {
 				played.add(number);
 			}
 
-		}).submit(Main.instance().getPlugin());
+		}).submit(Main.getPlugin());
 	}
 
 	public static void init() {

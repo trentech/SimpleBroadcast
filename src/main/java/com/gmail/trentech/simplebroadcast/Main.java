@@ -44,16 +44,15 @@ public class Main {
 	@Inject @ConfigDir(sharedRoot = false)
     private Path path;
 
-	@Inject 
-	private PluginContainer plugin;
-	
 	@Inject
 	private Logger log;
 
+	private static PluginContainer plugin;
 	private static Main instance;
 	
 	@Listener
 	public void onPreInitializationEvent(GamePreInitializationEvent event) {
+		plugin = Sponge.getPluginManager().getPlugin(Resource.ID).get();
 		instance = this;
 		
 		try {			
@@ -81,16 +80,8 @@ public class Main {
 		return log;
 	}
 
-	public PluginContainer getPlugin() {
-		return plugin;
-	}
-
 	public Path getPath() {
 		return path;
-	}
-
-	public static Main instance() {
-		return instance;
 	}
 	
 	public void broadcast(Text message) {
@@ -110,7 +101,7 @@ public class Main {
 		}
 
 		if (Sponge.getPluginManager().isLoaded("simpletags")) {
-			Optional<SingleTag> optionalTag = SingleTag.get(Main.instance().getPlugin().getId(), "broadcast");
+			Optional<SingleTag> optionalTag = SingleTag.get(getPlugin().getId(), "broadcast");
 
 			if (optionalTag.isPresent()) {
 				message = Text.of(optionalTag.get().getTag(), TextColors.WHITE, " ", message);
@@ -169,5 +160,13 @@ public class Main {
 		}
 
 		return builder.build();
+	}
+	
+	public static PluginContainer getPlugin() {
+		return plugin;
+	}
+	
+	public static Main instance() {
+		return instance;
 	}
 }
