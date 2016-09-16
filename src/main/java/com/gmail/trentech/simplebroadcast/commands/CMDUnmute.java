@@ -21,6 +21,7 @@ public class CMDUnmute implements CommandExecutor {
 
 	public CMDUnmute() {
 		Help help = new Help("unmute", "unmute", " Allow player to unmute broadcasts");
+		help.setPermission("simplebroadcast.cmd.broadcast.unmute");
 		help.setSyntax(" /broadcast unmute\n /b u");
 		help.setExample(" /broadcast unmute");
 		help.save();
@@ -29,7 +30,7 @@ public class CMDUnmute implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		if (!(src instanceof Player)) {
-			throw new CommandException(Text.of(TextColors.RED, "Must be a player"));
+			throw new CommandException(Text.of(TextColors.RED, "Must be a player"), false);
 		}
 		Player player = (Player) src;
 		String uuid = player.getUniqueId().toString();

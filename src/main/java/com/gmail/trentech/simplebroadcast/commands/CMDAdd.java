@@ -22,6 +22,7 @@ public class CMDAdd implements CommandExecutor {
 
 	public CMDAdd() {
 		Help help = new Help("add", "add", " Add message to broadcast list");
+		help.setPermission("simplebroadcast.cmd.broadcast.add");
 		help.setSyntax(" /broadcast add <message>\n /b a <message>");
 		help.setExample(" /broadcast add Welcome to the server");
 		help.save();

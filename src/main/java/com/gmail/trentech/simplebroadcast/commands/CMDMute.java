@@ -21,6 +21,7 @@ public class CMDMute implements CommandExecutor {
 
 	public CMDMute() {
 		Help help = new Help("mute", "mute", " Allow player to mute broadcasts");
+		help.setPermission("simplebroadcast.cmd.broadcast.mute");
 		help.setSyntax(" /broadcast mute\n /b m");
 		help.setExample(" /broadcast mute");
 		help.save();
@@ -29,7 +30,7 @@ public class CMDMute implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		if (!(src instanceof Player)) {
-			throw new CommandException(Text.of(TextColors.RED, "Must be a player"));
+			throw new CommandException(Text.of(TextColors.RED, "Must be a player"), false);
 		}
 		Player player = (Player) src;
 		String uuid = player.getUniqueId().toString();

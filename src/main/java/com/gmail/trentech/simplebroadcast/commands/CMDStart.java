@@ -22,6 +22,7 @@ public class CMDStart implements CommandExecutor {
 
 	public CMDStart() {
 		Help help = new Help("start", "start", " Toggle on auto broadcasts and set time in minutes.");
+		help.setPermission("simplebroadcast.cmd.broadcast.start");
 		help.setSyntax(" /broadcast start [time]\n /b on [time]");
 		help.setExample(" /broadcast start\n /broadcast start 5");
 		help.save();

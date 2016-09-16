@@ -21,6 +21,7 @@ public class CMDStop implements CommandExecutor {
 
 	public CMDStop() {
 		Help help = new Help("stop", "stop", " Toggle off auto broadcasts");
+		help.setPermission("simplebroadcast.cmd.broadcast.stop");
 		help.setSyntax(" /broadcast stop\n /b off");
 		help.setExample(" /broadcast stop\n");
 		help.save();

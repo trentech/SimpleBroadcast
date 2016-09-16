@@ -21,6 +21,7 @@ public class CMDRemove implements CommandExecutor {
 
 	public CMDRemove() {
 		Help help = new Help("remove", "remove", " Remove message from broadcast list");
+		help.setPermission("simplebroadcast.cmd.broadcast.remove");
 		help.setSyntax(" /broadcast remove <index>\n /b r <message>");
 		help.setExample(" /broadcast remove 4");
 		help.save();

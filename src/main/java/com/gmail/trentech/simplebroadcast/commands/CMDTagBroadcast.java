@@ -23,6 +23,7 @@ public class CMDTagBroadcast implements CommandExecutor {
 
 	public CMDTagBroadcast() {
 		Help help = new Help("broadcast", "broadcast", " View and edit broadcast tags");
+		help.setPermission("simpletags.cmd.tag.broadcast");
 		help.setSyntax(" /tag broadcast <tag>\n /t g <tag>");
 		help.setExample(" /tag broadcast\n /tag broadcast &e[broadcast]\n /tag broadcast reset");
 		help.save();

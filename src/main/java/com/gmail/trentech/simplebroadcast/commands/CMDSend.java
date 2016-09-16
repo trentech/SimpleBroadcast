@@ -13,6 +13,7 @@ public class CMDSend implements CommandExecutor {
 
 	public CMDSend() {
 		Help help = new Help("send", "send", " Broadcast a message");
+		help.setPermission("simplebroadcast.cmd.broadcast.send");
 		help.setSyntax(" /broadcast send <message>\n /b s <message>");
 		help.setExample(" /broadcast send Hello world!");
 		help.save();

@@ -2,6 +2,7 @@ package com.gmail.trentech.simplebroadcast.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -25,29 +26,12 @@ public class CMDBroadcast implements CommandExecutor {
 
 		list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command to execute "))).onClick(TextActions.runCommand("/simplebroadcast:broadcast help")).append(Text.of(" /broadcast help")).build());
 		
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.add")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("add"))).append(Text.of(" /broadcast add")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.remove")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("remove"))).append(Text.of(" /broadcast remove")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.mute")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("mute"))).append(Text.of(" /broadcast mute")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.unmute")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("unmute"))).append(Text.of(" /broadcast unmute")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.list")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("list"))).append(Text.of(" /broadcast list")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.start")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("start"))).append(Text.of(" /broadcast start")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.stop")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("stop"))).append(Text.of(" /broadcast stop")).build());
-		}
-		if (src.hasPermission("simplebroadcast.cmd.broadcast.send")) {
-			list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp("send"))).append(Text.of(" /broadcast send")).build());
+		for (Entry<String, Help> entry : Help.all().entrySet()) {
+			String command = entry.getKey();
+
+			if (src.hasPermission("simplebroadcast.cmd.broadcast." + command)) {
+				list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(command))).append(Text.of(" /broadcast " + command)).build());
+			}
 		}
 
 		if (src instanceof Player) {
