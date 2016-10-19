@@ -15,19 +15,10 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.gmail.trentech.simplebroadcast.Main;
 import com.gmail.trentech.simpletags.tags.SingleTag;
-import com.gmail.trentech.simpletags.utils.Help;
 
 public class CMDTagBroadcast implements CommandExecutor {
 
 	public static CommandSpec cmd = CommandSpec.builder().permission("simpletags.cmd.tag.broadcast").arguments(GenericArguments.optional(GenericArguments.string(Text.of("tag")))).executor(new CMDTagBroadcast()).build();
-
-	public CMDTagBroadcast() {
-		Help help = new Help("broadcast", "broadcast", " View and edit broadcast tags");
-		help.setPermission("simpletags.cmd.tag.broadcast");
-		help.setSyntax(" /tag broadcast <tag>\n /t g <tag>");
-		help.setExample(" /tag broadcast\n /tag broadcast &e[broadcast]\n /tag broadcast reset");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

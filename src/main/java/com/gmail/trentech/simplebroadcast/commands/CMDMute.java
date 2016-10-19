@@ -13,19 +13,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDMute implements CommandExecutor {
-
-	public CMDMute() {
-		Help help = new Help("mute", "mute", " Allow player to mute broadcasts");
-		help.setPermission("simplebroadcast.cmd.broadcast.mute");
-		help.setSyntax(" /broadcast mute\n /b m");
-		help.setExample(" /broadcast mute");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

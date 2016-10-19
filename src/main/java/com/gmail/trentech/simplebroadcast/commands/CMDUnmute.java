@@ -13,19 +13,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDUnmute implements CommandExecutor {
-
-	public CMDUnmute() {
-		Help help = new Help("unmute", "unmute", " Allow player to unmute broadcasts");
-		help.setPermission("simplebroadcast.cmd.broadcast.unmute");
-		help.setSyntax(" /broadcast unmute\n /b u");
-		help.setExample(" /broadcast unmute");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

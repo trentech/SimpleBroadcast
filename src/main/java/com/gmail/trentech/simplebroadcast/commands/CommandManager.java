@@ -4,8 +4,6 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
-import com.gmail.trentech.simplebroadcast.utils.Help;
-
 public class CommandManager {
 
 	private CommandSpec cmdAdd = CommandSpec.builder()
@@ -52,24 +50,16 @@ public class CommandManager {
 			.executor(new CMDSend())
 			.build();
 
-	private CommandSpec cmdHelp = CommandSpec.builder()
-		    .description(Text.of(" I need help with Simple Broadcast"))
-		    .permission("simplebroadcast.cmd.broadcast")
-		    .arguments(GenericArguments.choices(Text.of("command"), Help.all()))
-		    .executor(new CMDHelp())
-		    .build();
-	
 	public CommandSpec cmdBroadcast = CommandSpec.builder()
 			.permission("simplebroadcast.cmd.broadcast")
 			.child(cmdAdd, "add", "a")
 			.child(cmdRemove, "remove", "r")
-			.child(cmdList, "list", "l")
+			.child(cmdList, "list", "ls")
 			.child(cmdMute, "mute", "m")
 			.child(cmdUnmute, "unmute", "u")
 			.child(cmdStart, "start", "on")
 			.child(cmdStop, "stop", "off")
 			.child(cmdSend, "send", "s")
-			.child(cmdHelp, "help", "h")
 			.executor(new CMDBroadcast())
 			.build();
 }

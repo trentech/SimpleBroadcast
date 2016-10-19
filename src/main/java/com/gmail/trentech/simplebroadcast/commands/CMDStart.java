@@ -14,19 +14,10 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.Broadcast;
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDStart implements CommandExecutor {
-
-	public CMDStart() {
-		Help help = new Help("start", "start", " Toggle on auto broadcasts and set time in minutes.");
-		help.setPermission("simplebroadcast.cmd.broadcast.start");
-		help.setSyntax(" /broadcast start [time]\n /b on [time]");
-		help.setExample(" /broadcast start\n /broadcast start 5");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

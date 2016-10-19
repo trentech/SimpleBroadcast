@@ -14,19 +14,10 @@ import org.spongepowered.api.text.format.TextColors;
 import com.gmail.trentech.simplebroadcast.Broadcast;
 import com.gmail.trentech.simplebroadcast.Main;
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDAdd implements CommandExecutor {
-
-	public CMDAdd() {
-		Help help = new Help("add", "add", " Add message to broadcast list");
-		help.setPermission("simplebroadcast.cmd.broadcast.add");
-		help.setSyntax(" /broadcast add <message>\n /b a <message>");
-		help.setExample(" /broadcast add Welcome to the server");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

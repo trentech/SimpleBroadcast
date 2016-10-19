@@ -13,19 +13,10 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.Broadcast;
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDRemove implements CommandExecutor {
-
-	public CMDRemove() {
-		Help help = new Help("remove", "remove", " Remove message from broadcast list");
-		help.setPermission("simplebroadcast.cmd.broadcast.remove");
-		help.setSyntax(" /broadcast remove <index>\n /b r <message>");
-		help.setExample(" /broadcast remove 4");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

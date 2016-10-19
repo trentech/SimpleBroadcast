@@ -15,17 +15,8 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.Broadcast;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 public class CMDList implements CommandExecutor {
-
-	public CMDList() {
-		Help help = new Help("list", "list", " List all broadcast messages");
-		help.setPermission("simplebroadcast.cmd.broadcast.list");
-		help.setSyntax(" /broadcast list\n /b l");
-		help.setExample(" /broadcast list");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

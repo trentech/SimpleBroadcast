@@ -2,9 +2,8 @@ package com.gmail.trentech.simplebroadcast.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Map.Entry;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -17,29 +16,43 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.gmail.trentech.simplebroadcast.utils.Help;
+import com.gmail.trentech.helpme.Help;
 
 public class CMDBroadcast implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+		if (Sponge.getPluginManager().isLoaded("helpme")) {
+			Help.executeList(src, Help.get("broadcast").get().getChildren());
+			
+			return CommandResult.success();
+		}
+		
 		List<Text> list = new ArrayList<>();
 
-		list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command to execute "))).onClick(TextActions.runCommand("/simplebroadcast:broadcast help")).append(Text.of(" /broadcast help")).build());
-		
-		for (Entry<String, Help> entry : Help.all().entrySet()) {
-			String id = entry.getKey();
-			String command = entry.getValue().getCommand();
-
-			Optional<String> optionalPermission = entry.getValue().getPermission();
-			
-			if(optionalPermission.isPresent()) {
-				if (src.hasPermission(optionalPermission.get())) {
-					list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(id))).append(Text.of(" /broadcast " + command)).build());
-				}
-			} else {
-				list.add(Text.builder().color(TextColors.GREEN).onHover(TextActions.showText(Text.of("Click command for more information "))).onClick(TextActions.executeCallback(Help.getHelp(id))).append(Text.of(" /broadcast " + command)).build());
-			}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.add")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast add")).append(Text.of(" /broadcast add")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.remove")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast remove")).append(Text.of(" /broadcast remove")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.mute")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast mute")).append(Text.of(" /broadcast mute")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.unmute")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast unmute")).append(Text.of(" /broadcast unmute")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.list")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast list")).append(Text.of(" /broadcast list")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.start")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast start")).append(Text.of(" /broadcast start")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.stop")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast stop")).append(Text.of(" /broadcast stop")).build());
+		}
+		if (src.hasPermission("simplebroadcast.cmd.broadcast.send")) {
+			list.add(Text.builder().color(TextColors.GREEN).onClick(TextActions.runCommand("/simplebroadcast:broadcast send")).append(Text.of(" /broadcast send")).build());
 		}
 
 		if (src instanceof Player) {

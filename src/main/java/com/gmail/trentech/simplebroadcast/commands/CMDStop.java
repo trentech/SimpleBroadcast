@@ -13,19 +13,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
-import com.gmail.trentech.simplebroadcast.utils.Help;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class CMDStop implements CommandExecutor {
-
-	public CMDStop() {
-		Help help = new Help("stop", "stop", " Toggle off auto broadcasts");
-		help.setPermission("simplebroadcast.cmd.broadcast.stop");
-		help.setSyntax(" /broadcast stop\n /b off");
-		help.setExample(" /broadcast stop\n");
-		help.save();
-	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
