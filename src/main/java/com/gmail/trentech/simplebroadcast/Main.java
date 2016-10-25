@@ -26,7 +26,9 @@ import org.spongepowered.api.text.channel.MutableMessageChannel;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
-import com.gmail.trentech.helpme.Help;
+import com.gmail.trentech.helpme.help.Argument;
+import com.gmail.trentech.helpme.help.Help;
+import com.gmail.trentech.helpme.help.Usage;
 import com.gmail.trentech.simplebroadcast.commands.CMDTagBroadcast;
 import com.gmail.trentech.simplebroadcast.commands.CommandManager;
 import com.gmail.trentech.simplebroadcast.utils.ConfigManager;
@@ -39,7 +41,7 @@ import me.flibio.updatifier.Updatifier;
 import ninja.leaping.configurate.ConfigurationNode;
 
 @Updatifier(repoName = Resource.NAME, repoOwner = Resource.AUTHOR, version = Resource.VERSION)
-@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true), @Dependency(id = "simpletags", optional = true), @Dependency(id = "helpme", optional = true) })
+@Plugin(id = Resource.ID, name = Resource.NAME, version = Resource.VERSION, description = Resource.DESCRIPTION, authors = Resource.AUTHOR, url = Resource.URL, dependencies = { @Dependency(id = "Updatifier", optional = true), @Dependency(id = "simpletags", optional = true), @Dependency(id = "helpme", version = "0.2.1", optional = true) })
 public class Main {
 
 	@Inject @ConfigDir(sharedRoot = false)
@@ -77,53 +79,49 @@ public class Main {
 		Broadcast.init();
 		
 		if (Sponge.getPluginManager().isLoaded("helpme")) {
+			Usage usageAdd = new Usage(Argument.of("<message>", "Specifies message to be added"));
+			
 			Help broadcastAdd = new Help("broadcast add", "add", "Add message to broadcast list")
 					.setPermission("simplebroadcast.cmd.broadcast.add")
-					.addUsage("/broadcast add <message>")
-					.addUsage("/b a <message>")
+					.setUsage(usageAdd)
 					.addExample("/broadcast add Welcome to the server");
 			
 			Help broadcastList = new Help("broadcast list", "list", "List all broadcast messages")
 					.setPermission("simplebroadcast.cmd.broadcast.list")
-					.addUsage("/broadcast list")
-					.addUsage("/b ls")
 					.addExample("/broadcast list");
 			
 			Help broadcastMute = new Help("broadcast mute", "mute", "Allow player to mute broadcasts")
 					.setPermission("simplebroadcast.cmd.broadcast.mute")
-					.addUsage("/broadcast mute")
-					.addUsage("/b m")
 					.addExample("/broadcast mute");
+			
+			Usage usageRemove = new Usage(Argument.of("<index>", "Index of the message. You can find this with /sban list"));
 			
 			Help broadcastRemove = new Help("broadcast remove", "remove", "Remove message from broadcast list")
 					.setPermission("simplebroadcast.cmd.broadcast.remove")
-					.addUsage("/broadcast remove <index>")
-					.addUsage("/b r <index>")
+					.setUsage(usageRemove)
 					.addExample(" /broadcast remove 4");
+			
+			Usage usageSend = new Usage(Argument.of("<message>", "Specifies message to be broadcasted"));
 			
 			Help broadcastSend = new Help("broadcast send", "send", "Broadcast a message")
 					.setPermission("simplebroadcast.cmd.broadcast.send")
-					.addUsage("/broadcast send <message>")
-					.addUsage("/b s <message>")
+					.setUsage(usageSend)
 					.addExample("/broadcast send Hello world!");
+			
+			Usage usageStart = new Usage(Argument.of("[time]", "Specifies the time in minutes"));
 			
 			Help broadcastStart = new Help("broadcast start", "start", "Toggle on auto broadcasts and set time in minutes.")
 					.setPermission("simplebroadcast.cmd.broadcast.start")
-					.addUsage("/broadcast start [time]\n ")
-					.addUsage("/b on [time]")
+					.setUsage(usageStart)
 					.addExample("/broadcast start")
 					.addExample("/broadcast start 5");
 			
 			Help broadcastStop = new Help("broadcast stop", "stop", "Toggle off auto broadcasts")
 					.setPermission("simplebroadcast.cmd.broadcast.stop")
-					.addUsage("/broadcast stop")
-					.addUsage("/b off")
 					.addExample("/broadcast stop");
 			
 			Help broadcastUnmute = new Help("broadcast unmute", "unmute", "Allow player to unmute broadcasts")
 					.setPermission("simplebroadcast.cmd.broadcast.unmute")
-					.addUsage("/broadcast unmute")
-					.addUsage("/b u")
 					.addExample("/broadcast unmute");
 			
 			Help broadcast = new Help("broadcast", "broadcast", "Base command for SimpleBroadcast")
@@ -139,11 +137,12 @@ public class Main {
 			
 			Help.register(broadcast);
 			
+			Usage usageTag = new Usage(Argument.of("<tag>", "Set custom tag. Accepts color codes"));
+			
 			Help tagBroadcast = new Help("tag broadcast", "broadcast", "View and edit broadcast tags")
 					.setPermission("simpletags.cmd.tag.broadcast")
-					.addUsage("/tag broadcast <tag>")
-					.addUsage("/t g <tag>")
-					.addExample("/tag broadcast\n \n ")
+					.setUsage(usageTag)
+					.addExample("/tag broadcast")
 					.addExample("/tag broadcast &e[broadcast]")
 					.addExample("/tag broadcast reset");
 			
