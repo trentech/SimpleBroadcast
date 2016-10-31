@@ -109,8 +109,6 @@ public class Main {
 			if (optionalTag.isPresent()) {
 				message = Text.of(optionalTag.get().getTag(), TextColors.WHITE, " ", message);
 			}
-		} else {
-			message = Text.of(TextColors.GOLD, "[BROADCAST]", TextColors.WHITE, " ", message);
 		}
 
 		channel.send(Text.of(message));
